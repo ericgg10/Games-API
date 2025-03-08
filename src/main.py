@@ -1,14 +1,14 @@
 from fastapi import FastAPI, status
 from fastapi.exceptions import HTTPException
 
-from src.database import get_game_by_name, get_games_by_id, is_game_id
+from src.database.fake_games import get_game_by_name, get_games_by_id, is_game_id, get_games_by_genre
 
 app = FastAPI()
 
 
 @app.get("/")
 def example():
-    return {"message": "Hello World"}
+    return {"message": "Hello Eric"}
 
 
 @app.get("/games/id/{id}")
@@ -25,3 +25,7 @@ def get_game(id: int):
 @app.get("/games/name/{name}")
 def get_name(name: str):
     return get_game_by_name(name)
+
+@app.get("/games/genre/{genre}")
+def get_genre(genre: str):
+    return get_games_by_genre(genre)
