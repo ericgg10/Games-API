@@ -62,3 +62,18 @@ def get_games_by_year(year:int):
     query= f"Year=={year}"
     result=database_data.query(query)['Name'].drop_duplicates().tolist()[0:100]
     return result
+
+def get_games_between_years(year_1: int, year_2: int ):
+    query= f"Year>={year_1} and Year<={year_2} or Year>={year_2} and Year<={year_1}"
+    result=database_data.query(query)['Name'].drop_duplicates().tolist()[0:100]
+    return result
+
+def get_games_between_eu_sales(eu_sales_1: float, eu_sales_2: float ):
+    query= f"EU_Sales>={eu_sales_1} and EU_Sales<={eu_sales_2} or EU_Sales>={eu_sales_2} and EU_Sales<={eu_sales_1}"
+    result=database_data.query(query)['Name'].drop_duplicates().tolist()[0:100]
+    return result
+
+def get_games_between_na_sales(na_sales_1: float, na_sales_2: float):
+    query= f"NA_Sales>={na_sales_1} and NA_Sales<={na_sales_2} or NA_Sales>={na_sales_2} and NA_Sales<={na_sales_1}"
+    result=database_data.query(query)['Name'].drop_duplicates().tolist()[0:100]
+    return result
