@@ -1,54 +1,51 @@
 # GAMES API
 This is an example of a games api build in fastapi by Eric G.
 
-## Instalación
- Uv es un gestor de paquetes extremadamente rápido para Python que nos servirá para limitar los paquetes que instalemos en nuestros proyectos. De este modo no tendremos que tener instalados todos los paquetes en los diferentes espacios de trabajo sino que tendremos instalados en cada espacio de trabajo los paquetes necesarios para poder trabajar
+## Installation
+Uv is an extremely fast package manager for Python that will help us limit the packages we install in our projects. This way, we won't have to install all the packages in different workspaces, but instead, we'll install the necessary packages for each workspace to be able to work.
 
-### Instrucciones de instalación: 
- - Ejecutamos el terminal el CMD en Python y para instalarlo usaremos el comando:
+### Installation Instructions:: 
+ - Open the terminal or CMD in Python, and to install it, use the following command:
 
     - Windows: powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
     
     - Mac o Linux: curl -LsSf https://astral.sh/uv/install.sh | sh
 
-### Comandos:
-`uv sync`: Nos servirá para sincronizar las dependencias del proyecto con el entorno.
+### Commands:
+`uv sync`: This will synchronize the project's dependencies with the environment.
 
-`uv add`: Agregamos una dependencia al proyecto.
+`uv add`: Add a dependency to the project.
 
-`uv remove`: Eliminamos una dependencia del proyecto.
+`uv remove`: Remove a dependency from the project.
 
-`uv tree`: Ver el arbol de dependencias del proyecto.
-
-
-
-### Activar el entorno virtual:
-`.venv/bin/activate`: Con este comando activaremos el entorno virtual donde se instalaran los paquetes y ejecuciones de Python.
+`uv tree`: View the project's dependency tree.
 
 
-## Ejecucción
 
-`uvicorn src.main:app --reload`: Para lanzar el proyecto usaremos este comando
+### Activate the virtual environment:
+`.venv/bin/activate`: This command will activate the virtual environment where the packages and Python executions will be installed.
+
+
+## Execution
+
+`uvicorn src.main:app --reload`: To launch the project, we will use this command.
 
 ## Descripción del proyecto
-- `/` Devuelve el mensaje de Hello Eric cuando accedamos a la ruta y nos servirá para comprobar que funciona correctamente la conexión con el servidor
-- `/games/id/{id}` Devuelve los datos del juego con el ID que le hayamos pasado
-- `/games/name/{name}` Devuelve todos los datos del juego con el nombre que le hayamos pasado
-- `/games/genre/{genre}` Devuelve todos los juegos con el genero que le hayamos pasado
-- `/games/genres` Devuelve todos los generos distintos de los juegos como una lista
-- `/games/publisher` Devuelve todos los publisher distintos de los juegos como una lista
-- `/games/platform` Devuelve todas las plataformas distintas de los juegos como una lista
-- `/games/year` Devuelve todos los años distintos de los juegos como una lista
-- `/games/publisher/{publisher}` Devuelve los 100 primeros juegos del publisher que le hayamos pasado
-- `/games/platform/{platform}` Devuelve los 100 primeros juegos de la plataforma que le hayamos pasado
-- `/games/genre/{genre}` Devuelve los 100 primeros juegos del genero que le hayamos pasado
-- `/games/year/{year}` Devuelve los 100 primeros juegos del año que le hayamos pasado
+- `/` Returns the message "Hello Eric" when we access the route and will help verify that the connection with the server is working correctly.
+- `/games/id/{id}` Returns the data of the game with the ID we provide.
+- `/games/name/{name}` Returns all the data of the game with the name we provide.
+- `/games/genre/{genre}` Returns all games with the genre we provide.
+- `/games/genres` Returns all distinct genres of games as a list.
+- `/games/publisher` Returns all distinct publishers of games as a list.
+- `/games/platform` Returns all distinct platforms of games as a list.
+- `/games/year` Returns all distinct years of games as a list.
+- `/games/publisher/{publisher}` Returns the first 100 games from the publisher we provide.
+- `/games/platform/{platform}` Returns the first 100 games from the platform we provide.
+- `/games/genre/{genre}` Returns the first 100 games from the genre we provide.
+- `/games/year/{year}` Returns the first 100 games from the year we provide.
+- `/games/year/{year_1}/{year_2}` Returns the first 100 games between the two years we provide.
+- `/games/eu_sales/{eu_sales_1}/{eu_sales_2}` Returns the first 100 games between the EU sales range we provide.
+- `/games/na_sales/{na_sales_1}/{na_sales_2}` Returns the first 100 games between the NA sales range we provide.
 
 ## To do
-- Actualizar el readme
-    - Sección de descripción del proyecto [Listar los endpoints y una frase explicativa (ponerlo como sale abajo en endpoints a implementar)] 
 
-- Endpoints a implementar
-    - `/games/year/{year_1}/{year_2}`-> Devuelve los 100 primeros juegos entre el año 1 y año 2
-    - `/games/eusales/{eusales_1}/{eusales_2}`-> Devuelve los 100 primeros juegos entre el eusales_1 y eusales_2
-    `/games/eusales/{nasales_1}/{nasales_2}`-> Devuelve los 100 primeros juegos entre el nasales_1 y nasales_2
