@@ -1,7 +1,7 @@
 from fastapi import FastAPI, status
 from fastapi.exceptions import HTTPException
 
-from src.database.fake_games import get_game_by_name, get_games_by_id, is_game_id, get_games_by_genre, get_games_genres, get_games_publisher, get_games_platform, get_games_years, get_games_by_publisher, get_games_by_platform, get_games_by_genre, get_games_by_year
+from src.database.fake_games import get_game_by_name, get_games_by_id, is_game_id, get_games_by_genre, get_games_genres, get_games_publisher, get_games_platform, get_games_years, get_games_by_publisher, get_games_by_platform, get_games_by_genre, get_games_by_year, get_games_between_years, get_games_between_eu_sales, get_games_between_na_sales
 
 app = FastAPI()
 
@@ -71,3 +71,17 @@ def get_name_games_by_genre(genre:str):
 def get_name_games_by_year(year:int):
     return get_games_by_year(year)
 
+
+@app.get("/games/year/{year_1}/{year_2}")
+def get_name_games_between_year(year_1: int, year_2: int):
+    return get_games_between_years(year_1, year_2)
+
+
+@app.get("/games/eu_sales/{eu_sales_1}/{eu_sales_2}")
+def get_name_games_between_eu_sales(eu_sales_1: float, eu_sales_2: float):
+    return get_games_between_eu_sales(eu_sales_1, eu_sales_2)
+
+
+@app.get("/games/na_sales/{na_sales_1}/{na_sales_2}")
+def get_name_games_between_na_sales(na_sales_1: float, na_sales_2: float):
+    return get_games_between_na_sales(na_sales_1, na_sales_2)
