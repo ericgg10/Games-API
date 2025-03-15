@@ -21,23 +21,8 @@ def get_game_by_name(name: str):
     return result
 
 
-def get_games_genres():
-    result = database_data["Genre"].drop_duplicates().tolist()
-    return result
-
-
-def get_games_publisher():
-    result = database_data["Publisher"].drop_duplicates().tolist()[0:33]
-    return result
-
-
-def get_games_platform():
-    result = database_data["Platform"].drop_duplicates().tolist()
-    return result
-
-
-def get_games_years():
-    result = database_data["Year"].drop_duplicates().tolist()[0:30]
+def get_games_field(field: str):
+    result = database_data[field].drop_duplicates().tolist()[0:30]
     return result
 
 

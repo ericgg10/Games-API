@@ -11,10 +11,7 @@ from src.database.fake_games import (
     get_games_by_platform,
     get_games_by_publisher,
     get_games_by_year,
-    get_games_genres,
-    get_games_platform,
-    get_games_publisher,
-    get_games_years,
+    get_games_field,
     is_game_id,
 )
 
@@ -44,22 +41,22 @@ def get_name(name: str):
 
 @app.get("/games/genre/")
 def get_genres():
-    return get_games_genres()
+    return get_games_field("Genre")
 
 
 @app.get("/games/publisher/")
 def get_publishers():
-    return get_games_publisher()
+    return get_games_field("Publisher")
 
 
 @app.get("/games/platform/")
 def get_platforms():
-    return get_games_platform()
+    return get_games_field("Platform")
 
 
 @app.get("/games/year/")
 def get_years():
-    return get_games_years()
+    return get_games_field("Year")
 
 
 @app.get("/games/publisher/{publisher}")
