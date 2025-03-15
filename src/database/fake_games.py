@@ -22,7 +22,7 @@ def get_game_by_name(name: str):
 
 
 def get_games_field(field: str):
-    result = database_data[field].drop_duplicates().tolist()[0:30]
+    result = database_data[field].dropna().unique().tolist()
     return result
 
 
