@@ -17,8 +17,12 @@ def is_game_id(id: int):
 
 def get_game_by_name(name: str):
     query = f"Name == '{name}'"
-    result = database_data.query(query).to_dict(orient="records")[0]
-    return result
+    result = database_data.query(query).to_dict(orient="records")
+
+    if len(result) == 0:
+        return None
+
+    return result[0]
 
 
 def get_games_field(field: str):

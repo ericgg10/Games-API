@@ -24,7 +24,13 @@ def get_game(id: int):
 
 @app.get("/games/name/{name}")
 def get_name(name: str):
-    return db_games.get_game_by_name(name)
+    game = db_games.get_game_by_name(name)
+    if game is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Game not found with Name {name}",
+        )
+    return game
 
 
 @app.get("/games/genre/")
@@ -47,6 +53,7 @@ def get_years():
     return db_games.get_games_field("Year")
 
 
+# TODO: Error no existe el publisher y tiene que devolver un 404
 @app.get("/games/publisher/{publisher}")
 def get_name_games_by_publisher(publisher: str, limit: int = 10):
     return db_games.get_games_by_publisher(publisher, limit)
@@ -67,6 +74,7 @@ def get_name_games_by_year(year: int, limit: int = 10):
     return db_games.get_games_by_year(year, limit)
 
 
+# TODO: Error year 2 <= year 1 será error 400
 @app.get("/games/year/{year_1}/{year_2}")
 def get_name_games_between_year(year_1: int, year_2: int, limit: int = 10):
     return db_games.get_games_between_years(year_1, year_2, limit)
