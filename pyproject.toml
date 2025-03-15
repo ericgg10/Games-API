@@ -8,3 +8,24 @@ dependencies = [
     "fastapi[standard]>=0.115.11",
     "pandas>=2.2.3",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.11.0",
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "N",    # pep8-naming
+    "E",    # pycodestyle errors
+    "F",    # pyflakes
+    "I",    # isort
+    "C",    # flake8-comprehensions
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+    "PD",   # pandas vet
+    "NPY",  # NumPy-specific rules
+]
