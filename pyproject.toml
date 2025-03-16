@@ -11,6 +11,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "pytest>=8.3.5",
     "ruff>=0.11.0",
 ]
 
@@ -28,4 +29,7 @@ select = [
     "UP",   # pyupgrade
     "PD",   # pandas vet
     "NPY",  # NumPy-specific rules
+]
+ignore = [
+    "PD002", # Inplace inconsistency
 ]
