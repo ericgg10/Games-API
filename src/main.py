@@ -11,28 +11,53 @@ def example():
     return {"message": "Hello Eric"}
 
 
+# GET GAMES BY
 @app.get("/games/id/{id}")
 def get_game(id: int):
+    limit = 1
     if not db_games.is_game_id(id):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Game not found with id {id}",
         )
 
-    return db_games.get_games_by_id(id)
+    return db_games.get_games_by_field_num("Rank", id, limit)
 
 
 @app.get("/games/name/{name}")
 def get_name(name: str):
-    game = db_games.get_game_by_name(name)
+    limit = 1
+    game = db_games.get_games_by_field("Name", name, limit)
     if game is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Game not found with Name {name}",
         )
-    return game
+    return db_games.get_games_by_field("Name", name, limit)
 
 
+# TODO: Error no existe el publisher y tiene que devolver un 404
+@app.get("/games/publisher/{publisher}")
+def get_name_games_by_publisher(publisher: str, limit: int = 10):
+    return db_games.get_games_by_field("Publisher", publisher, limit)
+
+
+@app.get("/games/platform/{platform}")
+def get_name_games_by_platform(platform: str, limit: int = 10):
+    return db_games.get_games_by_field("Platform", platform, limit)
+
+
+@app.get("/games/genre/{genre}")
+def get_name_games_by_genre(genre: str, limit: int = 10):
+    return db_games.get_games_by_field("Genre", genre, limit)
+
+
+@app.get("/games/year/{year}")
+def get_name_games_by_year(year: int, limit: int = 10):
+    return db_games.get_games_by_field_num("Year", year, limit)
+
+
+# GET GAMES
 @app.get("/games/genre/")
 def get_genres():
     return db_games.get_games_field("Genre")
@@ -53,28 +78,10 @@ def get_years():
     return db_games.get_games_field("Year")
 
 
-# TODO: Error no existe el publisher y tiene que devolver un 404
-@app.get("/games/publisher/{publisher}")
-def get_name_games_by_publisher(publisher: str, limit: int = 10):
-    return db_games.get_games_by_publisher(publisher, limit)
-
-
-@app.get("/games/platform/{platform}")
-def get_name_games_by_platform(platform: str, limit: int = 10):
-    return db_games.get_games_by_platform(platform, limit)
-
-
-@app.get("/games/genre/{genre}")
-def get_name_games_by_genre(genre: str, limit: int = 10):
-    return db_games.get_games_by_genre(genre, limit)
-
-
-@app.get("/games/year/{year}")
-def get_name_games_by_year(year: int, limit: int = 10):
-    return db_games.get_games_by_year(year, limit)
-
-
 # TODO: Error year 2 <= year 1 será error 400
+
+
+# GET GAMES BETWEEN
 @app.get("/games/year/{year_1}/{year_2}")
 def get_name_games_between_year(year_1: int, year_2: int, limit: int = 10):
     return db_games.get_games_between_years(year_1, year_2, limit)
