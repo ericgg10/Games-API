@@ -3,26 +3,22 @@ import pandas as pd
 database_data = pd.read_csv("data/games.csv")
 
 
-def get_games_by_id(id: int):
-    query = f"Rank == {id}"
-    result = database_data.query(query).to_dict(orient="records")[0]
+# GET GAMES BY
+
+
+def get_games_by_field(field: str, field_value: str, limit=int):
+    query = f"{field} == '{field_value}'"
+    result = database_data.query(query)["Name"].unique().tolist()[0:limit]
     return result
 
 
-def is_game_id(id: int):
-    query = f"Rank == {id}"
-    result = len(database_data.query(query)) == 1
+def get_games_by_field_num(field: int, field_value: int, limit=int):
+    query = f"{field} == {field_value}"
+    result = database_data.query(query)["Name"].unique().tolist()[0:limit]
     return result
 
 
-def get_game_by_name(name: str):
-    query = f"Name == '{name}'"
-    result = database_data.query(query).to_dict(orient="records")
-
-    if len(result) == 0:
-        return None
-
-    return result[0]
+# GET GAMES FIELD
 
 
 def get_games_field(field: str):
@@ -30,27 +26,10 @@ def get_games_field(field: str):
     return result
 
 
-def get_games_by_publisher(publisher: str, limit: int):
-    query = f"Publisher=='{publisher}'"
-    result = database_data.query(query)["Name"].drop_duplicates().tolist()[0:limit]
-    return result
-
-
-def get_games_by_platform(platform: str, limit: int):
-    query = f"Platform=='{platform}'"
-    result = database_data.query(query)["Name"].drop_duplicates().tolist()[0:limit]
-    return result
-
-
-def get_games_by_genre(genre: str, limit: int):
-    query = f"Genre=='{genre}'"
-    result = database_data.query(query)["Name"].drop_duplicates().tolist()[0:limit]
-    return result
-
-
-def get_games_by_year(year: int, limit: int):
-    query = f"Year=={year}"
-    result = database_data.query(query)["Name"].drop_duplicates().tolist()[0:limit]
+# OTROS
+def is_game_id(id: int):
+    query = f"Rank == {id}"
+    result = len(database_data.query(query)) == 1
     return result
 
 
