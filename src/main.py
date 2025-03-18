@@ -84,14 +84,14 @@ def get_years():
 # GET GAMES BETWEEN
 @app.get("/games/year/{year_1}/{year_2}")
 def get_name_games_between_year(year_1: int, year_2: int, limit: int = 10):
-    return db_games.get_games_between_years(year_1, year_2, limit)
+    return db_games.get_games_between_int("Year", year_1, year_2, limit)
 
 
 @app.get("/games/eu_sales/{eu_sales_1}/{eu_sales_2}")
 def get_name_games_between_eu_sales(eu_sales_1: float, eu_sales_2: float, limit: int = 10):
-    return db_games.get_games_between_eu_sales(eu_sales_1, eu_sales_2, limit)
+    return db_games.get_games_between_float("EU_Sales", eu_sales_1, eu_sales_2, limit)
 
 
 @app.get("/games/na_sales/{na_sales_1}/{na_sales_2}")
 def get_name_games_between_na_sales(na_sales_1: float, na_sales_2: float, limit: int = 10):
-    return db_games.get_games_between_na_sales(na_sales_1, na_sales_2, limit)
+    return db_games.get_games_between_float("NA_Sales", na_sales_1, na_sales_2, limit)
