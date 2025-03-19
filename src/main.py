@@ -28,11 +28,17 @@ def get_game(id: int):
 def get_name(name: str):
     limit = 1
     game = db_games.get_games_by_field("Name", name, limit)
-    if game is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Game not found with Name {name}",
-        )
+    if not game:
+        if db_games.is_number(name):
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=f"Invalid input type: expected 'str' but received 'int' for the {name}.",
+            )
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Game not found with Name {name}",
+            )
     return db_games.get_games_by_field("Name", name, limit)
 
 
