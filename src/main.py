@@ -123,20 +123,32 @@ def get_years():
     return db_games.get_games_field("Year")
 
 
-# TODO: Error year 2 <= year 1 será error 400
-
-
 # GET GAMES BETWEEN
 @app.get("/games/year/{year_1}/{year_2}")
 def get_name_games_between_year(year_1: int, year_2: int, limit: int = 10):
+    if year_2 <= year_1:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="400 Bad Request: The request is malformed or incorrect. Please check the syntax of the URL or the request parameters.",
+        )
     return db_games.get_games_between_int("Year", year_1, year_2, limit)
 
 
 @app.get("/games/eu_sales/{eu_sales_1}/{eu_sales_2}")
 def get_name_games_between_eu_sales(eu_sales_1: float, eu_sales_2: float, limit: int = 10):
+    if eu_sales_2 <= eu_sales_1:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="400 Bad Request: The request is malformed or incorrect. Please check the syntax of the URL or the request parameters.",
+        )
     return db_games.get_games_between_float("EU_Sales", eu_sales_1, eu_sales_2, limit)
 
 
 @app.get("/games/na_sales/{na_sales_1}/{na_sales_2}")
 def get_name_games_between_na_sales(na_sales_1: float, na_sales_2: float, limit: int = 10):
+    if na_sales_2 <= na_sales_1:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="400 Bad Request: The request is malformed or incorrect. Please check the syntax of the URL or the request parameters.",
+        )
     return db_games.get_games_between_float("NA_Sales", na_sales_1, na_sales_2, limit)
