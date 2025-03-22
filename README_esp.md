@@ -48,7 +48,7 @@ Este es un ejemplo de una API de juegos construida con fastapi por Eric G.
 - `/games/na_sales/{na_sales_1}/{na_sales_2}` Devuelve los 100 primeros juegos entre las na_sales_1 y las na_sales_2.
 
 ## To do
--  Abstraer la lógica de las funciones de get games by
--  Abstraer la lógica de las funciones de get games between
--  Realizar pruebas y devolver el error conveniente. Nunca puede devolver un 500
--  Cuando abstraiga la lógica de las funciones hacer un test para ese grupo de endpoints en distintos archivos los grupos y para cada una de las funciones
+- Hacer diagrama SQL para los games con todas las tablas necesarias
+- Hacer una función create tables que cree todas las tablas en database.db
+- Hacer una función que inserte los datos en las tablas leyendo del game.csv
+- Reescribir fake_games utilizando la base de datos
