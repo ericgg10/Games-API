@@ -25,13 +25,13 @@ def get_games_field(field: str):
 # GET GAMES BETWEEN
 def get_games_between_int(field: int, field_1_value: int, field_2_value: int, limit: int):
     query = f"{field}>= {field_1_value} & {field}<={field_2_value}"
-    result = database_data.query(query).to_dict(orient="records")[0:limit]
+    result = database_data.query(query).dropna().to_dict(orient="records")[0:limit]
     return result
 
 
 def get_games_between_float(field: float, field_1_value: float, field_2_value: float, limit: int):
     query = f"{field}>= {field_1_value} & {field}<={field_2_value}"
-    result = database_data.query(query).to_dict(orient="records")[0:limit]
+    result = database_data.query(query).dropna().to_dict(orient="records")[0:limit]
     return result
 
 
@@ -42,6 +42,6 @@ def is_game_id(id: int):
     return result
 
 
-# IF VALUE IS NUMBER OR STR
+# IF VALUE IS NUMBER
 def is_number(value: str):
     return value.replace("-", "", 1).replace(",", "", 1).replace(".", "").replace("+", "").isdigit()
