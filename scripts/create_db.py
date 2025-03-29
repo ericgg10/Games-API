@@ -7,10 +7,10 @@ database = pd.read_csv("data/games.csv")
 
 
 # -----TABLES----------
-class Games(SQLModel, table=True):
+class Game(SQLModel, table=True):
     id: int = Field(primary_key=True)
     name: str
-    year: int
+    year: int | None
     genre_id: int = Field(foreign_key="genre.id")
     publisher_id: int = Field(foreign_key="publisher.id")
     platform_id: int = Field(foreign_key="platform.id")
@@ -33,7 +33,7 @@ class Genre(SQLModel, table=True):
 
 class Publisher(SQLModel, table=True):
     id: int = Field(primary_key=True)
-    name: str
+    name: str | None
 
 
 class Platform(SQLModel, table=True):
@@ -72,7 +72,7 @@ def insert_values():
             session.add(sales)
             session.flush()
             # Insertamos los juegos
-            game = Games(
+            game = Game(
                 name=row["Name"],
                 year=row["Year"],
                 genre_id=genre.id,
@@ -86,17 +86,35 @@ def insert_values():
 
 def execute_querys():
     with Session(engine) as session:
-        query = select(Games).where(Games.id == "4")
+        query = select(Game).where(Game.id == "4")
         result = session.exec(query)
         print(result.all())
+
+
+def delete_game_by_id(game_id):
+    with Session(engine) as session:
+        query = select(Game).where(Game.id == game_id)
+        result = session.exec(query).first()
+        session.delete(result)
+        session.commit()
+
+
+def update_game_year_by_id(game_id, year):
+    with Session(engine) as session:
+        query = select(Game).where(Game.id == game_id)
+        result = session.exec(query).first()
+        result.year = year
+        session.commit()
 
 
 # -----MAIN-------
 def main():
     if not Path("databasegames.db").exists():
         create_tables()
+        insert_values()
 
-    insert_values()
+    delete_game_by_id(2)
+    update_game_year_by_id(3, 2050)
     execute_querys()
 
 
