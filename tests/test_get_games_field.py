@@ -7,7 +7,7 @@ client = TestClient(app)
 
 
 def test_endpoint_games_genre():
-    response = client.get("/games/genre/")
+    response = client.get("/genre/")
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == [
         "Sports",
@@ -26,13 +26,13 @@ def test_endpoint_games_genre():
 
 
 def test_endpoint_games_publisher():
-    response = client.get("/games/publisher/")
+    response = client.get("/publisher/")
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()) == 578
 
 
 def test_endpoint_games_platforms():
-    response = client.get("/games/platform/")
+    response = client.get("/platform/")
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == [
         "Wii",
