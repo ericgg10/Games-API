@@ -3,6 +3,8 @@ from pathlib import Path
 import pandas as pd
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 
+from src.database import games_db
+
 database = pd.read_csv("data/games.csv")
 
 
@@ -52,15 +54,21 @@ def create_tables():
 def insert_values():
     with Session(engine) as session:
         for _, row in database.iterrows():
-            # Insertamos el genero
-            genre = Genre(name=row["Genre"])
-            session.add(genre)
-            # Insertamos el publisher
-            publisher = Publisher(name=row["Publisher"])
-            session.add(publisher)
-            # Insertamos la plataforma
-            platform = Platform(name=row["Platform"])
-            session.add(platform)
+            # Comprobamos si existe el genero y si no existe lo añadimos
+            genre = session.exec(select(Genre).filter_by(name=row["Genre"])).first()
+            if not genre:
+                genre = Genre(name=row["Genre"])
+                session.add(genre)
+            # Comprobamos si existe el publisher y si no existe lo añadimos
+            publisher = session.exec(select(Publisher).filter_by(name=row["Publisher"])).first()
+            if not publisher:
+                publisher = Publisher(name=row["Publisher"])
+                session.add(publisher)
+            # Comprobamos si existe la plataforma y si no existe lo añadimos
+            platform = session.exec(select(Platform).filter_by(name=row["Platform"])).first()
+            if not platform:
+                platform = Platform(name=row["Platform"])
+                session.add(platform)
             # Insertamos las ventas
             sales = GameSales(
                 Na_sales=row["NA_Sales"],
@@ -113,9 +121,9 @@ def main():
         create_tables()
         insert_values()
 
-    delete_game_by_id(2)
-    update_game_year_by_id(3, 2050)
-    execute_querys()
+    with Session(engine) as session:
+        print("Get games by id (3): ")
+        print(games_db.get_games_by_id(3, Game, session))
 
 
 if __name__ == "__main__":
