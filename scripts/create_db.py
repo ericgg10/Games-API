@@ -1,49 +1,16 @@
 from pathlib import Path
 
 import pandas as pd
-from sqlmodel import Field, Session, SQLModel, create_engine, select
+from sqlmodel import Session, SQLModel, select
 
-from src.database import games_db
+from src.database import engine, platform_database
+from src.models.game_model import Game
+from src.models.game_sales_model import GameSales
+from src.models.genre_model import Genre
+from src.models.platform_model import Platform
+from src.models.publisher_model import Publisher
 
 database = pd.read_csv("data/games.csv")
-
-
-# -----TABLES----------
-class Game(SQLModel, table=True):
-    id: int = Field(primary_key=True)
-    name: str
-    year: int | None
-    genre_id: int = Field(foreign_key="genre.id")
-    publisher_id: int = Field(foreign_key="publisher.id")
-    platform_id: int = Field(foreign_key="platform.id")
-    gamesales_id: int = Field(foreign_key="gamesales.id")
-
-
-class GameSales(SQLModel, table=True):
-    id: int = Field(primary_key=True)
-    Na_sales: float
-    Eu_sales: float
-    Jp_sales: float
-    Other_sales: float
-    Global_sales: float
-
-
-class Genre(SQLModel, table=True):
-    id: int = Field(primary_key=True)
-    name: str
-
-
-class Publisher(SQLModel, table=True):
-    id: int = Field(primary_key=True)
-    name: str | None
-
-
-class Platform(SQLModel, table=True):
-    id: int = Field(primary_key=True)
-    name: str
-
-
-engine = create_engine("sqlite:///databasegames.db")
 
 
 # -----FUNCTIONS----------
@@ -80,15 +47,17 @@ def insert_values():
             session.add(sales)
             session.flush()
             # Insertamos los juegos
-            game = Game(
-                name=row["Name"],
-                year=row["Year"],
-                genre_id=genre.id,
-                publisher_id=publisher.id,
-                platform_id=platform.id,
-                gamesales_id=sales.id,
-            )
-            session.add(game)
+            game = session.exec(select(Game).filter_by(name=row["Name"])).first()
+            if not game:
+                game = Game(
+                    name=row["Name"],
+                    year=row["Year"],
+                    genre_id=genre.id,
+                    publisher_id=publisher.id,
+                    platform_id=platform.id,
+                    gamesales_id=sales.id,
+                )
+                session.add(game)
         session.commit()
 
 
@@ -120,10 +89,11 @@ def main():
     if not Path("databasegames.db").exists():
         create_tables()
         insert_values()
-
+    execute_querys()
     with Session(engine) as session:
-        print("Get games by id (3): ")
-        print(games_db.get_games_by_id(3, Game, session))
+        platform_database.get_platform_by_name(session, name="Wii")
+        # platform_database.create_platform(session, "Prueba")
+        platform_database.delete_platform_by_id(session, 33)
 
 
 if __name__ == "__main__":
