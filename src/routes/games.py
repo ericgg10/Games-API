@@ -23,16 +23,10 @@ def get_name(name: str):
     limit = 1
     game = db_games.get_games_by_field("Name", name, limit)
     if not game:
-        if db_games.is_number(name):
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail=f"Invalid input type: expected 'str' but received 'int' for the {name}.",
-            )
-        else:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Game not found with Name {name}",
-            )
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Game not found with Name {name}",
+        )
     return db_games.get_games_by_field("Name", name, limit)
 
 
@@ -40,11 +34,6 @@ def get_name(name: str):
 def get_name_games_by_publisher(publisher: str, limit: int = 10):
     game = db_games.get_games_by_field("Publisher", publisher, limit)
     if not game:
-        if db_games.is_number(publisher):
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail=f"Invalid input type: expected 'str' but received 'int' for the {publisher}",
-            )
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Game not found with Publisher {publisher}",
@@ -57,11 +46,6 @@ def get_name_games_by_publisher(publisher: str, limit: int = 10):
 def get_name_games_by_platform(platform: str, limit: int = 10):
     game = db_games.get_games_by_field("Platform", platform, limit)
     if not game:
-        if db_games.is_number(platform):
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail=f"Invalid input type: expected 'str' but received 'int' for the {platform}",
-            )
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Game not found with Platform {platform}",
@@ -73,11 +57,6 @@ def get_name_games_by_platform(platform: str, limit: int = 10):
 def get_name_games_by_genre(genre: str, limit: int = 10):
     game = db_games.get_games_by_field("Genre", genre, limit)
     if not game:
-        if db_games.is_number(genre):
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail=f"Invalid input type: expected 'str' but received 'int' for the {genre}",
-            )
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Game not found with Genre {genre}",
