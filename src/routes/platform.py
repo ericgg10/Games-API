@@ -1,14 +1,14 @@
 from fastapi import APIRouter
 
-from src.database import db_session, platform_db
-from src.database import fake_games as db_games
+from src.database import db_session, games_db, platform_db
+from src.models.platform_model import Platform
 
 router = APIRouter(prefix="/platform", tags=["Platform"])
 
 
 @router.get("/")
-def get_platforms():
-    return db_games.get_games_field("Platform")
+def get_platforms(db: db_session):
+    return games_db.get_games_field(db, Platform)
 
 
 @router.get("/name/{name}")
