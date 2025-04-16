@@ -38,7 +38,7 @@ def get_games_field(db: Session, table: SQLModel):
     nombres = []
     for column in result:
         nombres.append(column.name)
-    print(nombres)
+    return nombres
 
 
 # GET GAMES BETWEEN
