@@ -60,10 +60,12 @@ def delete_game_by_id(db: Session, game_id):
     result = db.exec(query).first()
     db.delete(result)
     db.commit()
+    return result
 
 
 # CREATE GAME
 def create_game(db: Session, game_info: Game):
     db.add(game_info)
     db.commit()
+    db.refresh(game_info)
     return game_info

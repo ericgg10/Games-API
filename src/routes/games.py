@@ -130,11 +130,11 @@ def get_name_games_between_na_sales(
 
 @router.delete("/id/{id}")
 def delete_game_by_id(db: db_session, id: int):
-    games_db.delete_game_by_id(db, id)
-    return "Se ha borrado correctamente el juego"
+    deleted_game = games_db.delete_game_by_id(db, id)
+    return deleted_game
 
 
-@router.post("/")
+@router.post("/", status_code=status.HTTP_201_CREATED)
 def create_game(db: db_session, game_info: Game):
-    games_db.create_game(db, game_info)
-    return "Se ha creado correctamente el juego"
+    created_game = games_db.create_game(db, game_info)
+    return created_game
