@@ -9,3 +9,12 @@ def create_game_sales(db: Session, game_info: GameSales):
     db.commit()
     db.refresh(game_info)
     return game_info
+
+
+# DELETE GAME-SALES
+def delete_game_sales_by_id(db: Session, game_sales_id):
+    query = select(GameSales).where(GameSales.id == game_sales_id)
+    result = db.exec(query).first()
+    db.delete(result)
+    db.commit()
+    return result
