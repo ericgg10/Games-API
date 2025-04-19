@@ -18,3 +18,8 @@ def delete_game_sales_by_id(db: Session, game_sales_id):
     db.delete(result)
     db.commit()
     return result
+
+
+# GET GAME_SALES_BY_ID
+def get_games_sales_by_id(db: Session, game_id: int):
+    return db.get(GameSales, game_id)

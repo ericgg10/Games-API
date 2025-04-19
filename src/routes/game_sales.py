@@ -18,3 +18,15 @@ def create_game_sales(db: db_session, game_info: GameSales):
 def delete_game_sales_by_id(db: db_session, id: int):
     deleted_game_sales = games_sales_db.delete_game_sales_by_id(db, id)
     return deleted_game_sales
+
+
+@router.get("/id/{id}")
+def get_game_sales(db: db_session, id: int):
+    game_sales = games_sales_db.get_games_sales_by_id(db, id)
+    if not game_sales:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Game Sales not found with id {id}",
+        )
+
+    return game_sales
