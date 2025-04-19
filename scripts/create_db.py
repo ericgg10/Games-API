@@ -68,14 +68,6 @@ def execute_querys():
         print(result.all())
 
 
-def delete_game_by_id(game_id):
-    with Session(engine) as session:
-        query = select(Game).where(Game.id == game_id)
-        result = session.exec(query).first()
-        session.delete(result)
-        session.commit()
-
-
 def update_game_year_by_id(game_id, year):
     with Session(engine) as session:
         query = select(Game).where(Game.id == game_id)
