@@ -52,3 +52,18 @@ def get_games_between(db: Session, column, field_1, field_2, limit):
     )
     result = db.exec(query)
     return result.all()
+
+
+# DELETE GAME
+def delete_game_by_id(db: Session, game_id):
+    query = select(Game).where(Game.id == game_id)
+    result = db.exec(query).first()
+    db.delete(result)
+    db.commit()
+
+
+# CREATE GAME
+def create_game(db: Session, game_info: Game):
+    db.add(game_info)
+    db.commit()
+    return game_info
