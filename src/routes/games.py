@@ -126,3 +126,15 @@ def get_name_games_between_na_sales(
             detail="400 Bad Request: The request is malformed or incorrect. Please check the syntax of the URL or the request parameters.",
         )
     return games_db.get_games_between(db, GameSales.Na_sales, na_sales_1, na_sales_2, limit)
+
+
+@router.delete("/id/{id}")
+def delete_game_by_id(db: db_session, id: int):
+    games_db.delete_game_by_id(db, id)
+    return "Se ha borrado correctamente el juego"
+
+
+@router.post("/")
+def create_game(db: db_session, game_info: Game):
+    games_db.create_game(db, game_info)
+    return "Se ha creado correctamente el juego"
