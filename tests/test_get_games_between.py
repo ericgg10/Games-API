@@ -47,7 +47,7 @@ def test_endpoint_games_between_na_sales():
     na_sales_2 = 41.49
     response = client.get(f"/games/na_sales/{na_sales_1}/{na_sales_2}")
     assert response.status_code == status.HTTP_200_OK
-    assert len(response.json()) == 5
+    assert len(response.json()) == 6
 
 
 def test_endpoint_games_between_na_sales_invalid():
