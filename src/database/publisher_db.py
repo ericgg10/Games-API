@@ -18,3 +18,8 @@ def delete_publisher_by_id(db: Session, publisher_id):
     db.delete(result)
     db.commit()
     return result
+
+
+# GET PUBLISHER_BY_ID
+def get_publisher_by_id(db: Session, publisher_id: int):
+    return db.get(Publisher, publisher_id)
