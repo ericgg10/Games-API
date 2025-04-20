@@ -10,12 +10,11 @@ def get_platform_by_name(db: Session, name: str):
     return result
 
 
-def create_platform(db: Session, name: str):
-    platform = Platform(name=name)
-    db.add(platform)
+def create_platform(db: Session, game_info: Platform):
+    db.add(game_info)
     db.commit()
-    db.refresh(platform)
-    print(platform)
+    db.refresh(game_info)
+    return game_info
 
 
 def delete_platform_by_id(db: Session, id: int):
@@ -23,3 +22,9 @@ def delete_platform_by_id(db: Session, id: int):
     result = db.exec(query).first()
     db.delete(result)
     db.commit()
+    return result
+
+
+# GET PLATFORM_BY_ID
+def get_platform_by_id(db: Session, platform_id: int):
+    return db.get(Platform, platform_id)
