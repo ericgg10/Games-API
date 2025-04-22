@@ -9,8 +9,10 @@ from src.models.game_sales_model import GameSales
 from src.models.genre_model import Genre
 from src.models.platform_model import Platform
 from src.models.publisher_model import Publisher
+from src.models.users_model import User
 
 database = pd.read_csv("data/games.csv")
+users_db = pd.read_csv("data/users.csv")
 
 
 # -----FUNCTIONS----------
@@ -57,7 +59,16 @@ def insert_values():
                     platform_id=platform.id,
                     gamesales_id=sales.id,
                 )
-                session.add(game)
+            session.add(game)
+        for _, row in users_db.iterrows():
+            user = session.exec(select(User).filter_by(name=row["Name"])).first()
+            if not user:
+                user = User(
+                    name=row["Name"],
+                    password=row["Password"],
+                    role=row["Role"],
+                )
+            session.add(user)
         session.commit()
 
 
