@@ -16,3 +16,7 @@ def delete_user_by_id(db: Session, id: int):
     db.delete(result)
     db.commit()
     return result
+
+
+def get_user_by_id(db: Session, user_id: int):
+    return db.get(User, user_id)

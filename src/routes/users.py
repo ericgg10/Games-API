@@ -17,3 +17,15 @@ def create_user(db: db_session, user_info: User):
 def delete_user_by_id(db: db_session, id: int):
     deleted_user = users_db.delete_user_by_id(db, id)
     return deleted_user
+
+
+@router.get("/id/{id}")
+def get_users_by_id(db: db_session, id: int):
+    user = users_db.get_user_by_id(db, id)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User not found with id {id}",
+        )
+
+    return user
