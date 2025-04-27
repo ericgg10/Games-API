@@ -21,3 +21,13 @@ def delete_genre_by_id(db: Session, id: int):
 # GET GENRE_BY_ID
 def get_genre_by_id(db: Session, genre_id: int):
     return db.get(Genre, genre_id)
+
+
+def update_genre(db: Session, new_genre: Genre):
+    query = select(Genre).where(Genre.id == new_genre.id)
+    old_genre = db.exec(query).first()
+
+    old_genre.name = new_genre.name if new_genre.name else old_genre.name
+    db.commit()
+    db.refresh(old_genre)
+    return old_genre

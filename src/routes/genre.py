@@ -34,3 +34,8 @@ def get_genre_by_id(db: db_session, id: int):
         )
 
     return genre
+
+
+@router.patch("/")
+def update_genre(db: db_session, new_genre: Genre):
+    return genre_db.update_genre(db, new_genre)
