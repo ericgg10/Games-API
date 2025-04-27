@@ -3,7 +3,7 @@ from fastapi.exceptions import HTTPException
 
 # from src.database import fake_games as db_games
 from src.database import db_session, games_db
-from src.models.game_model import Game
+from src.models.game_model import Game, GameUpdate
 from src.models.game_sales_model import GameSales
 from src.models.genre_model import Genre
 from src.models.platform_model import Platform
@@ -138,3 +138,8 @@ def delete_game_by_id(db: db_session, id: int):
 def create_game(db: db_session, game_info: Game):
     created_game = games_db.create_game(db, game_info)
     return created_game
+
+
+@router.patch("/")
+def update_game(db: db_session, new_game: GameUpdate):
+    return games_db.update_game(db, new_game)

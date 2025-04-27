@@ -69,3 +69,16 @@ def create_game(db: Session, game_info: Game):
     db.commit()
     db.refresh(game_info)
     return game_info
+
+
+def update_game(db: Session, new_game: Game):
+    query = select(Game).where(Game.id == new_game.id)
+    old_game = db.exec(query).first()
+    old_game.name = new_game.name if new_game.name else old_game.name
+    old_game.year = new_game.year if new_game.year else old_game.year
+    old_game.genre_id = new_game.genre_id if new_game.genre_id else old_game.genre_id
+    old_game.platform_id = new_game.platform_id if new_game.platform_id else old_game.platform_id
+
+    db.commit()
+    db.refresh(old_game)
+    return old_game
