@@ -14,7 +14,6 @@ class UserUpdate(SQLModel):
     id: uuid.UUID
     name: str | None
     password: int
-    role: int
 
 
 class UserCreate(SQLModel):

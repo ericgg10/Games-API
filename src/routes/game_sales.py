@@ -3,7 +3,7 @@ from fastapi.exceptions import HTTPException
 
 # from src.database import fake_games as db_games
 from src.database import db_session, games_sales_db
-from src.models.game_sales_model import GameSales
+from src.models.game_sales_model import GameSales, GameSalesUpdate
 
 router = APIRouter(prefix="/game-sales", tags=["GameSales"])
 
@@ -30,3 +30,8 @@ def get_game_sales(db: db_session, id: int):
         )
 
     return game_sales
+
+
+@router.patch("/")
+def update_games_sales(db: db_session, new_games_sales: GameSalesUpdate):
+    return games_sales_db.update_games_sales(db, new_games_sales)

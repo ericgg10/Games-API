@@ -2,7 +2,7 @@ from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
 from src.database import db_session, games_db, genre_db
-from src.models.genre_model import Genre
+from src.models.genre_model import Genre, GenreCreate, GenreUpdate
 
 router = APIRouter(prefix="/genre", tags=["Genre"])
 
@@ -13,7 +13,7 @@ def get_genres(db: db_session):
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-def create_genre(db: db_session, game_info: Genre):
+def create_genre(db: db_session, game_info: GenreCreate):
     created_genre = genre_db.create_genre(db, game_info)
     return created_genre
 
@@ -37,5 +37,5 @@ def get_genre_by_id(db: db_session, id: int):
 
 
 @router.patch("/")
-def update_genre(db: db_session, new_genre: Genre):
+def update_genre(db: db_session, new_genre: GenreUpdate):
     return genre_db.update_genre(db, new_genre)

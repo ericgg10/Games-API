@@ -2,7 +2,7 @@ from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
 from src.database import db_session, games_db, platform_db
-from src.models.platform_model import Platform
+from src.models.platform_model import Platform, PlatformCreate, PlatformUpdate
 
 router = APIRouter(prefix="/platform", tags=["Platform"])
 
@@ -18,7 +18,7 @@ def get_platform_by_name(name: str, db: db_session):
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-def create_platform(db: db_session, game_info: Platform):
+def create_platform(db: db_session, game_info: PlatformCreate):
     created_platform = platform_db.create_platform(db, game_info)
     return created_platform
 
@@ -39,3 +39,8 @@ def get_platform_by_id(db: db_session, id: int):
         )
 
     return platform
+
+
+@router.patch("/")
+def update_platform(db: db_session, new_platform: PlatformUpdate):
+    return platform_db.update_platform(db, new_platform)

@@ -23,3 +23,13 @@ def delete_publisher_by_id(db: Session, publisher_id):
 # GET PUBLISHER_BY_ID
 def get_publisher_by_id(db: Session, publisher_id: int):
     return db.get(Publisher, publisher_id)
+
+
+def update_publisher(db: Session, new_publisher: Publisher):
+    query = select(Publisher).where(Publisher.id == new_publisher.id)
+    old_publisher = db.exec(query).first()
+
+    old_publisher.name = new_publisher.name if new_publisher.name else old_publisher.name
+    db.commit()
+    db.refresh(old_publisher)
+    return old_publisher

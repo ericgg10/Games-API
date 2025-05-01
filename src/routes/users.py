@@ -2,7 +2,7 @@ from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
 from src.database import db_session, users_db
-from src.models.users_model import User
+from src.models.users_model import User, UserUpdate
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -29,3 +29,8 @@ def get_users_by_id(db: db_session, id: int):
         )
 
     return user
+
+
+@router.patch("/")
+def update_user(db: db_session, new_user: UserUpdate):
+    return users_db.update_user(db, new_user)

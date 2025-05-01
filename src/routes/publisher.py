@@ -2,7 +2,7 @@ from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
 from src.database import db_session, games_db, publisher_db
-from src.models.publisher_model import Publisher
+from src.models.publisher_model import Publisher, PublisherCreate, PublisherUpdate
 
 router = APIRouter(prefix="/publisher", tags=["Publisher"])
 
@@ -13,7 +13,7 @@ def get_publishers(db: db_session):
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-def create_publisher(db: db_session, game_info: Publisher):
+def create_publisher(db: db_session, game_info: PublisherCreate):
     created_publisher = publisher_db.create_publisher(db, game_info)
     return created_publisher
 
@@ -34,3 +34,8 @@ def get_publisher_by_id(db: db_session, id: int):
         )
 
     return publisher
+
+
+@router.patch("/")
+def update_publisher(db: db_session, new_publisher: PublisherUpdate):
+    return publisher_db.update_publisher(db, new_publisher)

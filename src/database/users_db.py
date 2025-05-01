@@ -20,3 +20,14 @@ def delete_user_by_id(db: Session, id: int):
 
 def get_user_by_id(db: Session, user_id: int):
     return db.get(User, user_id)
+
+
+def update_user(db: Session, new_user: User):
+    query = select(User).where(User.id == new_user.id)
+    old_user = db.exec(query).first()
+
+    old_user.name = new_user.name if new_user.name else old_user.name
+    old_user.password = new_user.password if new_user.password else old_user.password
+    db.commit()
+    db.refresh(old_user)
+    return old_user
