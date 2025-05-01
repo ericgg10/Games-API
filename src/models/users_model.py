@@ -8,3 +8,17 @@ class User(SQLModel, table=True):
     name: str | None
     password: int
     role: int
+
+
+class UserUpdate(SQLModel):
+    id: uuid.UUID
+    name: str | None
+    password: int
+    role: int
+
+
+class UserCreate(SQLModel):
+    id: uuid.UUID
+    name: str | None
+    password: int
+    role: int

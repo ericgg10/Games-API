@@ -10,3 +10,21 @@ class GameSales(SQLModel, table=True):
     Jp_sales: float
     Other_sales: float
     Global_sales: float
+
+
+class GameSalesUpdate(SQLModel):
+    id: uuid.UUID
+    Na_sales: float
+    Eu_sales: float
+    Jp_sales: float
+    Other_sales: float
+    Global_sales: float
+
+
+class GameSalesCreate(SQLModel):
+    id: uuid.UUID
+    Na_sales: float
+    Eu_sales: float
+    Jp_sales: float
+    Other_sales: float
+    Global_sales: float
