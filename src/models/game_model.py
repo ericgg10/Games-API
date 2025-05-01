@@ -1,19 +1,30 @@
+import uuid
+
 from sqlmodel import Field, SQLModel
 
 
 class Game(SQLModel, table=True):
-    id: int = Field(primary_key=True)
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     name: str
     year: int | None
-    genre_id: int = Field(foreign_key="genre.id")
-    publisher_id: int = Field(foreign_key="publisher.id")
-    platform_id: int = Field(foreign_key="platform.id")
-    gamesales_id: int = Field(foreign_key="gamesales.id", ondelete="CASCADE")
+    genre_id: uuid.UUID = Field(foreign_key="genre.id")
+    publisher_id: uuid.UUID = Field(foreign_key="publisher.id")
+    platform_id: uuid.UUID = Field(foreign_key="platform.id")
+    gamesales_id: uuid.UUID = Field(foreign_key="gamesales.id", ondelete="CASCADE")
 
 
 class GameUpdate(SQLModel):
-    id: int = Field(primary_key=True)
+    id: uuid.UUID
     name: str
     year: int | None
-    genre_id: int = Field(foreign_key="genre.id")
-    platform_id: int = Field(foreign_key="platform.id")
+    genre_id: int
+    platform_id: int
+
+
+class GameCreate(SQLModel):
+    name: str
+    year: int | None
+    genre_id: int
+    publisher_id: int
+    platform_id: int
+    gamesales_id: int

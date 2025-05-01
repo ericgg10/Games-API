@@ -1,8 +1,10 @@
+import uuid
+
 from sqlmodel import Field, SQLModel
 
 
 class GameSales(SQLModel, table=True):
-    id: int = Field(primary_key=True)
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     Na_sales: float
     Eu_sales: float
     Jp_sales: float
