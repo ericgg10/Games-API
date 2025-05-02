@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
@@ -15,13 +17,13 @@ def create_game_sales(db: db_session, game_info: GameSales):
 
 
 @router.delete("/id/{id}")
-def delete_game_sales_by_id(db: db_session, id: int):
+def delete_game_sales_by_id(db: db_session, id: UUID):
     deleted_game_sales = games_sales_db.delete_game_sales_by_id(db, id)
     return deleted_game_sales
 
 
 @router.get("/id/{id}")
-def get_game_sales(db: db_session, id: int):
+def get_game_sales(db: db_session, id: UUID):
     game_sales = games_sales_db.get_games_sales_by_id(db, id)
     if not game_sales:
         raise HTTPException(

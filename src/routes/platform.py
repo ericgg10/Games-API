@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
@@ -24,13 +26,13 @@ def create_platform(db: db_session, game_info: PlatformCreate):
 
 
 @router.delete("/id/{id}")
-def delete_platform_by_id(db: db_session, id: int):
+def delete_platform_by_id(db: db_session, id: UUID):
     deleted_platform = platform_db.delete_platform_by_id(db, id)
     return deleted_platform
 
 
 @router.get("/id/{id}")
-def get_platform_by_id(db: db_session, id: int):
+def get_platform_by_id(db: db_session, id: UUID):
     platform = platform_db.get_platform_by_id(db, id)
     if not platform:
         raise HTTPException(

@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
@@ -14,13 +16,13 @@ def create_user(db: db_session, user_info: User):
 
 
 @router.delete("/id/{id}")
-def delete_user_by_id(db: db_session, id: int):
+def delete_user_by_id(db: db_session, id: UUID):
     deleted_user = users_db.delete_user_by_id(db, id)
     return deleted_user
 
 
 @router.get("/id/{id}")
-def get_users_by_id(db: db_session, id: int):
+def get_users_by_id(db: db_session, id: UUID):
     user = users_db.get_user_by_id(db, id)
     if not user:
         raise HTTPException(

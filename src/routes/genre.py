@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
@@ -19,13 +21,13 @@ def create_genre(db: db_session, game_info: GenreCreate):
 
 
 @router.delete("/id/{id}")
-def delete_genre_by_id(db: db_session, id: int):
+def delete_genre_by_id(db: db_session, id: UUID):
     deleted_genre = genre_db.delete_genre_by_id(db, id)
     return deleted_genre
 
 
 @router.get("/id/{id}")
-def get_genre_by_id(db: db_session, id: int):
+def get_genre_by_id(db: db_session, id: UUID):
     genre = genre_db.get_genre_by_id(db, id)
     if not genre:
         raise HTTPException(

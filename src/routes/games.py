@@ -131,7 +131,7 @@ def get_name_games_between_na_sales(
 
 
 @router.delete("/id/{id}")
-def delete_game_by_id(db: db_session, id: int):
+def delete_game_by_id(db: db_session, id: UUID):
     deleted_game = games_db.delete_game_by_id(db, id)
     return deleted_game
 

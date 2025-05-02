@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
@@ -19,13 +21,13 @@ def create_publisher(db: db_session, game_info: PublisherCreate):
 
 
 @router.delete("/id/{id}")
-def delete_publisher_by_id(db: db_session, id: int):
+def delete_publisher_by_id(db: db_session, id: UUID):
     deleted_publisher = publisher_db.delete_publisher_by_id(db, id)
     return deleted_publisher
 
 
 @router.get("/id/{id}")
-def get_publisher_by_id(db: db_session, id: int):
+def get_publisher_by_id(db: db_session, id: UUID):
     publisher = publisher_db.get_publisher_by_id(db, id)
     if not publisher:
         raise HTTPException(
