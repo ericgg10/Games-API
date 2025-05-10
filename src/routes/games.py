@@ -3,6 +3,8 @@ from uuid import UUID
 from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
+from src.auth import validate_token
+
 # from src.database import fake_games as db_games
 from src.database import db_session, games_db
 from src.models.game_model import Game, GameCreate, GameUpdate
@@ -29,6 +31,7 @@ def get_game(db: db_session, id: UUID):
 @router.get("/name/{name}")
 def get_game_by_name(db: db_session, name: str):
     game = games_db.get_games_by_field(db, Game.name, name, limit=1)
+    print(game)
     if not game:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -131,7 +134,7 @@ def get_name_games_between_na_sales(
 
 
 @router.delete("/id/{id}")
-def delete_game_by_id(db: db_session, id: UUID):
+def delete_game_by_id(db: db_session, id: UUID, token: validate_token):
     deleted_game = games_db.delete_game_by_id(db, id)
     return deleted_game
 
