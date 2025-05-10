@@ -4,14 +4,15 @@ from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
 from src.database import db_session, users_db
-from src.models.users_model import User, UserUpdate
+from src.models.users_model import User, UserCreate, UserUpdate
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-def create_user(db: db_session, user_info: User):
-    created_user = users_db.create_user(db, user_info)
+def create_user(db: db_session, user_info: UserCreate):
+    new_user = User(**user_info.model_dump(), role=0)
+    created_user = users_db.create_user(db, new_user)
     return created_user
 
 

@@ -15,8 +15,9 @@ def get_publishers(db: db_session):
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-def create_publisher(db: db_session, game_info: PublisherCreate):
-    created_publisher = publisher_db.create_publisher(db, game_info)
+def create_publisher(db: db_session, publisher_info: PublisherCreate):
+    new_publisher = Publisher(**publisher_info.model_dump())
+    created_publisher = publisher_db.create_publisher(db, new_publisher)
     return created_publisher
 
 

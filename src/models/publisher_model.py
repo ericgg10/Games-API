@@ -14,5 +14,4 @@ class PublisherUpdate(SQLModel):
 
 
 class PublisherCreate(SQLModel):
-    id: uuid.UUID
     name: str

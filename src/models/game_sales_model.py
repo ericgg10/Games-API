@@ -22,7 +22,6 @@ class GameSalesUpdate(SQLModel):
 
 
 class GameSalesCreate(SQLModel):
-    id: uuid.UUID
     Na_sales: float
     Eu_sales: float
     Jp_sales: float

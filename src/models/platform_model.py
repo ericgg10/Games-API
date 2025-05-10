@@ -14,5 +14,4 @@ class PlatformUpdate(SQLModel):
 
 
 class PlatformCreate(SQLModel):
-    id: uuid.UUID
     name: str

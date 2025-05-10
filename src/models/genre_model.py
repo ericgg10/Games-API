@@ -14,5 +14,4 @@ class GenreUpdate(SQLModel):
 
 
 class GenreCreate(SQLModel):
-    id: uuid.UUID
     name: str

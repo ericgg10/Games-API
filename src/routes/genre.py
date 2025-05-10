@@ -15,8 +15,9 @@ def get_genres(db: db_session):
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-def create_genre(db: db_session, game_info: GenreCreate):
-    created_genre = genre_db.create_genre(db, game_info)
+def create_genre(db: db_session, genre_info: GenreCreate):
+    new_genre = Genre(**genre_info.model_dump())
+    created_genre = genre_db.create_genre(db, new_genre)
     return created_genre
 
 

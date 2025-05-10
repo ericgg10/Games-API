@@ -20,8 +20,9 @@ def get_platform_by_name(name: str, db: db_session):
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-def create_platform(db: db_session, game_info: PlatformCreate):
-    created_platform = platform_db.create_platform(db, game_info)
+def create_platform(db: db_session, platform_info: PlatformCreate):
+    new_platform = Platform(**platform_info.model_dump())
+    created_platform = platform_db.create_platform(db, new_platform)
     return created_platform
 
 
