@@ -37,3 +37,48 @@ def get_users_by_id(db: db_session, id: UUID):
 @router.patch("/")
 def update_user(db: db_session, new_user: UserUpdate):
     return users_db.update_user(db, new_user)
+
+
+@router.get("/name/{name}")
+def get_users_by_username(db: db_session, name: str):
+    user = users_db.get_user_by_username(db, name)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User not found with name {name}",
+        )
+
+    return user
+
+
+@router.patch("/name/{name}")
+def change_user_password(
+    db: db_session,
+    name: str,
+    old_password: int,
+    new_password_1: int,
+    new_password_2: int,
+):
+    user = users_db.get_user_by_username(db, name)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User not found with name {name}",
+        )
+    if user.password != old_password:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="La contraseña anterior es incorrecta",
+        )
+    if old_password == new_password_1:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="La contraseña nueva es igual que la contraseña anterior",
+        )
+    if new_password_1 != new_password_2:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Las nuevas contraseñas no coinciden",
+        )
+    user = users_db.user_change_password(db, user, new_password_1)
+    return user

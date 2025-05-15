@@ -31,3 +31,20 @@ def update_user(db: Session, new_user: User):
     db.commit()
     db.refresh(old_user)
     return old_user
+
+
+def get_user_by_username(db: Session, username: str):
+    query = select(User).where(User.name == username)
+    result = db.exec(query).first()
+    print(result)
+    return result
+
+
+def user_change_password(db: Session, user: User, new_password: int):
+    user.password = new_password
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return {
+        f"La contraseña de tu usuario con el username {user.name} se ha actualizado correctamente"
+    }
