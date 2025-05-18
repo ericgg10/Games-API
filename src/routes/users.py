@@ -80,5 +80,7 @@ def change_user_password(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Las nuevas contraseñas no coinciden",
         )
-    user = users_db.user_change_password(db, user, new_password_1)
-    return user
+
+    user.password = new_password_1
+    user = users_db.update_user(db, user)
+    return {"content": user, "message": "password update successfully"}
