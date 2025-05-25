@@ -4,7 +4,8 @@ from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
 from src.database import db_session, users_db
-from src.models.users_model import User, UserCreate, UserUpdate
+from src.models.users_model import User, UserCreate, UserPublic, UserUpdate
+from src.utils import get_password_hash, verify_password
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -51,13 +52,18 @@ def get_users_by_username(db: db_session, name: str):
     return user
 
 
+@router.get("/", response_model=list[UserPublic])
+def get_all_users(db: db_session):
+    return users_db.get_all_users(db)
+
+
 @router.patch("/name/{name}")
 def change_user_password(
     db: db_session,
     name: str,
-    old_password: int,
-    new_password_1: int,
-    new_password_2: int,
+    old_password: str,
+    new_password_1: str,
+    new_password_2: str,
 ):
     user = users_db.get_user_by_username(db, name)
     if not user:
@@ -65,7 +71,7 @@ def change_user_password(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"User not found with name {name}",
         )
-    if user.password != old_password:
+    if not verify_password(old_password, user.password):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="La contraseña anterior es incorrecta",
@@ -81,6 +87,6 @@ def change_user_password(
             detail="Las nuevas contraseñas no coinciden",
         )
 
-    user.password = new_password_1
+    user.password = get_password_hash(new_password_1)
     user = users_db.update_user(db, user)
     return {"content": user, "message": "password update successfully"}

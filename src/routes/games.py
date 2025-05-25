@@ -17,7 +17,7 @@ router = APIRouter(prefix="/games", tags=["Games"])
 
 
 @router.get("/id/{id}")
-def get_game(db: db_session, id: UUID):
+def get_game(db: db_session, id: UUID, token: validate_token):
     game = games_db.get_games_by_id(db, id)
     if not game:
         raise HTTPException(
@@ -140,12 +140,12 @@ def delete_game_by_id(db: db_session, id: UUID, token: validate_token):
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-def create_game(db: db_session, game_info: GameCreate):
+def create_game(db: db_session, game_info: GameCreate, token: validate_token):
     new_game = Game(**game_info.model_dump())
     created_game = games_db.create_game(db, new_game)
     return created_game
 
 
 @router.patch("/")
-def update_game(db: db_session, new_game: GameUpdate):
+def update_game(db: db_session, new_game: GameUpdate, token: validate_token):
     return games_db.update_game(db, new_game)

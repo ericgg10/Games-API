@@ -1,9 +1,11 @@
 from sqlmodel import Session, select
 
 from src.models.users_model import User
+from src.utils import get_password_hash
 
 
 def create_user(db: Session, user_info: User):
+    user_info.password = get_password_hash(user_info.password)
     db.add(user_info)
     db.commit()
     db.refresh(user_info)
@@ -36,5 +38,10 @@ def update_user(db: Session, new_user: User):
 def get_user_by_username(db: Session, username: str):
     query = select(User).where(User.name == username)
     result = db.exec(query).first()
-    print(result)
+    return result
+
+
+def get_all_users(db: Session):
+    query = select(User)
+    result = db.exec(query).all()
     return result

@@ -7,6 +7,7 @@ requires-python = ">=3.11"
 dependencies = [
     "fastapi[standard]>=0.115.11",
     "pandas>=2.2.3",
+    "passlib[bcrypt]>=1.7.4",
     "sqlmodel>=0.0.24",
 ]
 
