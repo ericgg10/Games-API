@@ -10,6 +10,7 @@ from src.models.genre_model import Genre
 from src.models.platform_model import Platform
 from src.models.publisher_model import Publisher
 from src.models.users_model import User
+from src.utils import get_password_hash
 
 database = pd.read_csv("data/games.csv")
 users_db = pd.read_csv("data/users.csv")
@@ -65,7 +66,7 @@ def insert_values():
             if not user:
                 user = User(
                     name=row["Name"],
-                    password=row["Password"],
+                    password=get_password_hash(row["Password"]),
                     role=row["Role"],
                 )
             session.add(user)
