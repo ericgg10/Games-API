@@ -29,7 +29,7 @@ def get_game(db: db_session, id: UUID, token: validate_token):
 
 
 @router.get("/name/{name}")
-def get_game_by_name(db: db_session, name: str):
+def get_game_by_name(db: db_session, name: str, token: validate_token):
     game = games_db.get_games_by_field(db, Game.name, name, limit=1)
     print(game)
     if not game:
@@ -41,7 +41,7 @@ def get_game_by_name(db: db_session, name: str):
 
 
 @router.get("/publisher/{publisher}")
-def get_name_games_by_publisher(db: db_session, publisher: str, limit=10):
+def get_name_games_by_publisher(token: validate_token, db: db_session, publisher: str, limit=10):
     game = games_db.get_games_by_field(db, Publisher.name, publisher, limit)
     if not game:
         raise HTTPException(
@@ -52,7 +52,9 @@ def get_name_games_by_publisher(db: db_session, publisher: str, limit=10):
 
 
 @router.get("/platform/{platform}")
-def get_name_games_by_platform(db: db_session, platform: str, limit: int = 10):
+def get_name_games_by_platform(
+    token: validate_token, db: db_session, platform: str, limit: int = 10
+):
     game = games_db.get_games_by_field(db, Platform.name, platform, limit)
     if not game:
         raise HTTPException(
@@ -63,7 +65,7 @@ def get_name_games_by_platform(db: db_session, platform: str, limit: int = 10):
 
 
 @router.get("/genre/{genre}")
-def get_name_games_by_genre(db: db_session, genre: str, limit: int = 10):
+def get_name_games_by_genre(token: validate_token, db: db_session, genre: str, limit: int = 10):
     game = games_db.get_games_by_field(db, Genre.name, genre, limit)
     if not game:
         raise HTTPException(
@@ -74,7 +76,7 @@ def get_name_games_by_genre(db: db_session, genre: str, limit: int = 10):
 
 
 @router.get("/year/{year}")
-def get_name_games_by_year(db: db_session, year: int, limit: int = 10):
+def get_name_games_by_year(token: validate_token, db: db_session, year: int, limit: int = 10):
     game = games_db.get_games_by_field(db, Game.year, year, limit)
     if not game:
         raise HTTPException(
@@ -90,6 +92,7 @@ def get_name_games_by_year(db: db_session, year: int, limit: int = 10):
 # # GET GAMES BETWEEN
 @router.get("/year/{year_1}/{year_2}")
 def get_name_games_between_year(
+    token: validate_token,
     db: db_session,
     year_1: int,
     year_2: int,
@@ -105,6 +108,7 @@ def get_name_games_between_year(
 
 @router.get("/eu_sales/{eu_sales_1}/{eu_sales_2}")
 def get_name_games_between_eu_sales(
+    token: validate_token,
     db: db_session,
     eu_sales_1: float,
     eu_sales_2: float,
@@ -120,6 +124,7 @@ def get_name_games_between_eu_sales(
 
 @router.get("/na_sales/{na_sales_1}/{na_sales_2}")
 def get_name_games_between_na_sales(
+    token: validate_token,
     db: db_session,
     na_sales_1: float,
     na_sales_2: float,

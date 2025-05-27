@@ -3,6 +3,7 @@ from uuid import UUID
 from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
+from src.auth import validate_token
 from src.database import db_session, users_db
 from src.models.users_model import User, UserCreate, UserPublic, UserUpdate
 from src.utils import get_password_hash, verify_password
@@ -18,13 +19,13 @@ def create_user(db: db_session, user_info: UserCreate):
 
 
 @router.delete("/id/{id}")
-def delete_user_by_id(db: db_session, id: UUID):
+def delete_user_by_id(token: validate_token, db: db_session, id: UUID):
     deleted_user = users_db.delete_user_by_id(db, id)
     return deleted_user
 
 
 @router.get("/id/{id}")
-def get_users_by_id(db: db_session, id: UUID):
+def get_users_by_id(token: validate_token, db: db_session, id: UUID):
     user = users_db.get_user_by_id(db, id)
     if not user:
         raise HTTPException(
@@ -36,12 +37,12 @@ def get_users_by_id(db: db_session, id: UUID):
 
 
 @router.patch("/")
-def update_user(db: db_session, new_user: UserUpdate):
+def update_user(token: validate_token, db: db_session, new_user: UserUpdate):
     return users_db.update_user(db, new_user)
 
 
 @router.get("/name/{name}")
-def get_users_by_username(db: db_session, name: str):
+def get_users_by_username(token: validate_token, db: db_session, name: str):
     user = users_db.get_user_by_username(db, name)
     if not user:
         raise HTTPException(
@@ -53,7 +54,7 @@ def get_users_by_username(db: db_session, name: str):
 
 
 @router.get("/", response_model=list[UserPublic])
-def get_all_users(db: db_session):
+def get_all_users(token: validate_token, db: db_session):
     return users_db.get_all_users(db)
 
 
