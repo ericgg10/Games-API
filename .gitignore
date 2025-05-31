@@ -11,3 +11,7 @@ wheels/
 
 # Database 
 *.db
+
+.vscode
+.pytest_cache
+.env
