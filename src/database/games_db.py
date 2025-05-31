@@ -1,7 +1,8 @@
+from sqlalchemy.orm import selectinload
 from sqlmodel import Session, SQLModel, select
 
 from src.database import engine
-from src.models.game_model import Game
+from src.models.game_model import Game, GamePublic
 from src.models.game_sales_model import GameSales
 from src.models.genre_model import Genre
 from src.models.platform_model import Platform
@@ -82,3 +83,34 @@ def update_game(db: Session, new_game: Game):
     db.commit()
     db.refresh(old_game)
     return old_game
+
+
+def get_all_games(db: Session, limit):
+    query = select(Game).limit(limit)
+    result = db.exec(query).all()
+    return result
+
+
+def get_public_game(db: Session, page_size, page_index):
+    query = (
+        select(Game, Platform.name, Genre.name, Publisher.name)
+        .where(Game.genre_id == Genre.id)
+        .where(Game.platform_id == Platform.id)
+        .where(Game.publisher_id == Publisher.id)
+        .offset(page_size * page_index)
+        .limit(page_size)
+    )
+    result = db.exec(query).all()
+
+    list_of_result = []
+    for single_result in result:
+        game, platform_name, genre_name, publisher_name = single_result
+        game_public = GamePublic(
+            **game.model_dump(),
+            genre_name=genre_name,
+            platform_name=platform_name,
+            publisher_name=publisher_name,
+        )
+        list_of_result.append(game_public)
+
+    return list_of_result

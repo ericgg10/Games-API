@@ -28,3 +28,11 @@ class GameCreate(SQLModel):
     publisher_id: int
     platform_id: int
     gamesales_id: int
+
+
+class GamePublic(SQLModel):
+    name: str
+    year: int | None
+    genre_name: str
+    publisher_name: str
+    platform_name: str

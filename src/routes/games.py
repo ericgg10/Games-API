@@ -7,7 +7,7 @@ from src.auth import validate_token
 
 # from src.database import fake_games as db_games
 from src.database import db_session, games_db
-from src.models.game_model import Game, GameCreate, GameUpdate
+from src.models.game_model import Game, GameCreate, GamePublic, GameUpdate
 from src.models.game_sales_model import GameSales
 from src.models.genre_model import Genre
 from src.models.platform_model import Platform
@@ -26,6 +26,15 @@ def get_game(db: db_session, id: UUID, token: validate_token):
         )
 
     return game
+
+
+@router.get("/", response_model=list[GamePublic])
+def get_all_games(
+    db: db_session,
+    page_size: int = 50,
+    page_index: int = 0,
+):
+    return games_db.get_public_game(db, page_size, page_index)
 
 
 @router.get("/name/{name}")
