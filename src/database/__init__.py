@@ -3,7 +3,9 @@ from typing import Annotated
 from fastapi import Depends
 from sqlmodel import Session, create_engine
 
-engine = create_engine("sqlite:///databasegames.db")  # noqa: F401
+from src.config import settings
+
+engine = create_engine(settings.DATABASE_URL)  # noqa: F401
 
 
 def get_session():

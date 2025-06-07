@@ -1,8 +1,12 @@
 from fastapi import FastAPI
 
+from src.config import settings
 from src.routes import game_sales, games, genre, platform, publisher, users
 
-app = FastAPI()
+app = FastAPI(
+    title=settings.APP_TITLE,
+    description=settings.APP_DESCRIPTION,
+)
 
 app.include_router(publisher.router)
 app.include_router(games.router)
