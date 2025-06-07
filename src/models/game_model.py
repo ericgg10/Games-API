@@ -31,6 +31,7 @@ class GameCreate(SQLModel):
 
 
 class GamePublic(SQLModel):
+    id: uuid.UUID
     name: str
     year: int | None
     genre_name: str
