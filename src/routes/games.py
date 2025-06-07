@@ -30,6 +30,7 @@ def get_game(db: db_session, id: UUID, token: validate_token):
 
 @router.get("/", response_model=list[GamePublic])
 def get_all_games(
+    token: validate_token,
     db: db_session,
     page_size: int = 50,
     page_index: int = 0,
@@ -37,7 +38,7 @@ def get_all_games(
     return games_db.get_public_game(db, page_size, page_index)
 
 
-@router.get("/name/{name}")
+@router.get("/name/{name}", response_model=list[GamePublic])
 def get_game_by_name(db: db_session, name: str, token: validate_token):
     game = games_db.get_games_by_field(db, Game.name, name, limit=1)
     print(game)
@@ -49,7 +50,7 @@ def get_game_by_name(db: db_session, name: str, token: validate_token):
     return game
 
 
-@router.get("/publisher/{publisher}")
+@router.get("/publisher/{publisher}", response_model=list[GamePublic])
 def get_name_games_by_publisher(token: validate_token, db: db_session, publisher: str, limit=10):
     game = games_db.get_games_by_field(db, Publisher.name, publisher, limit)
     if not game:
