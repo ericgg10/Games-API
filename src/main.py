@@ -1,3 +1,4 @@
+import uvicorn
 from fastapi import FastAPI
 
 from src.config import settings
@@ -19,3 +20,7 @@ app.include_router(users.router)
 @app.get("/")
 def example():
     return {"message": "Hello Eric"}
+
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)
