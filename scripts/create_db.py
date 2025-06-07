@@ -2,6 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 from sqlmodel import Session, SQLModel, select
+from tqdm import tqdm
 
 from src.database import engine, games_db, platform_db
 from src.models.game_model import Game
@@ -12,7 +13,12 @@ from src.models.publisher_model import Publisher
 from src.models.users_model import User
 from src.utils import get_password_hash
 
-database = pd.read_csv("data/games.csv")
+database = pd.read_csv("data/games.csv")[0:1000]
+database["Year"] = database["Year"].fillna(0)
+database["Publisher"] = database["Publisher"].fillna("")
+database["Platform"] = database["Platform"].fillna("")
+database["Genre"] = database["Genre"].fillna("")
+database = database.fillna(0)
 users_db = pd.read_csv("data/users.csv")
 
 
@@ -23,7 +29,7 @@ def create_tables():
 
 def insert_values():
     with Session(engine) as session:
-        for _, row in database.iterrows():
+        for _, row in tqdm(database.iterrows()):
             # Comprobamos si existe el genero y si no existe lo añadimos
             genre = session.exec(select(Genre).filter_by(name=row["Genre"])).first()
             if not genre:
@@ -90,9 +96,8 @@ def update_game_year_by_id(game_id, year):
 
 # -----MAIN-------
 def main():
-    if not Path("databasegames.db").exists():
-        create_tables()
-        insert_values()
+    create_tables()
+    insert_values()
 
 
 if __name__ == "__main__":
