@@ -3,8 +3,10 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
+from src.config import settings
+
 # Hardcoded token (in a real app, never do this!)
-HARDCODED_TOKEN = "supersecrettoken123"
+HARDCODED_TOKEN = settings.AUTH_TOKEN
 
 # Use HTTPBearer for token extraction
 security = Annotated[HTTPAuthorizationCredentials, Depends(HTTPBearer())]
