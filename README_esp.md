@@ -20,6 +20,10 @@ Para sincronizar las dependencias del proyecto con el entorno:
 ```sh
 uv sync
 ```
+Para ejecutar el entorno del proyecto:
+```sh
+uv run
+```
 Para agregar una dependencia al proyecto:
 ```sh
 uv add
@@ -96,6 +100,3 @@ Justificación de base de datos:
 - Ligero y sin servidor
 - Almacena los datos en un solo archivo
 - Compatible con SQL
-
-## To do
-- Poner todas las funciones que habían en fake games en games db pero usando lo de la base de datos menos el get games by field
